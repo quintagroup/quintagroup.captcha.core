@@ -39,6 +39,7 @@ setup(name='quintagroup.captcha.core',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
+      extras_require={'tests':['Products.PloneTestCase']},
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
