@@ -10,13 +10,14 @@ except ImportError:
     import md5
 from string import atoi
 from random import randint
+from random import shuffle
 
 from DateTime import DateTime
 
 from plone.memoize import forever
 
 from quintagroup.captcha.core.data import basic_english
-#import quintagroup.captcha.core configuration values
+# import quintagroup.captcha.core configuration values
 from quintagroup.captcha.core.config import (
     DEFAULT_IMAGE_SIZE, DEFAULT_BG, DEFAULT_FONT_COLOR, DEFAULT_DISTORTION,
     CAPTCHAS_COUNT)
@@ -91,7 +92,7 @@ def gen_captcha(**kwargs):
     DATA_PATH = os.path.abspath(os.path.dirname(__file__)) + '/data'
     FONT_PATH = DATA_PATH + '/fonts'
 
-    #select font for captcha text
+    # select font for captcha text
     ALL_FONTS = ('Bd', 'It', 'MoBI', 'Mono', 'Se',
                  'BI', 'MoBd', 'MoIt', 'SeBd', '')
     rand_font = random.choice(ALL_FONTS)
@@ -181,6 +182,14 @@ def getCaptchasCount(dynamic):
         return CAPTCHAS_COUNT
 
 
+def getRandIndex(dynamic):
+    if dynamic:
+        index = randint(0, getCaptchasCount(True) - 1)
+    else:
+        index = randint(1, getCaptchasCount(False))
+    return index
+
+
 def formKey(num):
     def normalize(s):
         return (not len(s) % 8 and s) or normalize(s + str(randint(0, 9)))
@@ -216,3 +225,54 @@ def toHex(s):
 
 def toStr(s):
     return s and chr(atoi(s[:2], base=16)) + toStr(s[2:]) or ''
+
+
+def encrypt_token(captcha_key, hashkey, index):
+    l = len(hashkey) / 16
+    i = index % l * 16
+    return encrypt(captcha_key, hashkey[i:i+16])
+
+
+def validate_token(captcha_key, hashkey, index, tokenkey):
+    l = len(hashkey) / 16
+    x = int(index) % l * 16
+    key = decrypt(captcha_key, tokenkey)
+    return key != hashkey[x:x+16]
+
+
+def validate_key(context, test_key, index, dynamic):
+    if dynamic:
+        enc = test_key
+        solution = getWord(int(index))
+    else:
+        enc = encrypt1(test_key)
+        solution = getattr(context, '%s.jpg' % index).title
+    return enc != solution
+
+
+def obfuscate_code(hashkey, token):
+    strings = [
+        'getElementById', 'hashkey', 'parentNode', 'style', 'display', 'none',
+        'setAttribute', 'name', 'tokenkey', 'value', 'token'
+    ]
+    shuffle(strings)
+    keys = dict([(value, index) for index, value in enumerate(strings)])
+    strings[strings.index('token')] = token
+    strings[strings.index('hashkey')] = hashkey
+    strings = [
+        "".join([
+            str(hex(ord(i))).replace('0x', '\\x')
+            for i in s
+        ])
+        for s in strings
+    ]
+    keys['strings'] = '"' + '","'.join(strings) + '"'
+    blocks = [
+        "_i[_s[%(parentNode)s]][_s[%(style)s]][_s[%(display)s]]=_s[%(none)s]",
+        "_i[_s[%(setAttribute)s]](_s[%(name)s],_s[%(tokenkey)s])",
+        "_i[_s[%(value)s]]=_s[%(token)s];",
+    ]
+    shuffle(blocks)
+    value = "var _s=[%(strings)s], _i=document[_s[%(getElementById)s]](_s[%(hashkey)s])"
+    value = ";".join([value] + blocks)
+    return value % keys

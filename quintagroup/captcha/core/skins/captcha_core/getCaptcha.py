@@ -6,10 +6,11 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=
-from quintagroup.captcha.core.utils import getCaptchasCount, formKey, encrypt
+from quintagroup.captcha.core.utils import getCaptchasCount, getRandIndex, formKey, encrypt
 
-from random import randint
-key = formKey(randint(1, getCaptchasCount(False)))
+ctype = context.getCaptchaType()
+index = getRandIndex(ctype == 'dynamic')
+key = formKey(index)
 encrypted_key = encrypt(context.captcha_key, key)
 
 return encrypted_key

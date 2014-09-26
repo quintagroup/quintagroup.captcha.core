@@ -8,5 +8,6 @@
   <property name="period" type="float">0.1</property>
   <property name="amplitude" type="float">5.0</property>
   <property name="random_params" type="boolean">True</property>
+  <property name="honeypot" type="boolean">False</property>
  </object>
 </object>

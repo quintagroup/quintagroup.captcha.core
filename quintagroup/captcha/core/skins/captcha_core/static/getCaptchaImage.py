@@ -6,8 +6,7 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=
-from quintagroup.captcha.core.utils import gen_captcha, decrypt, \
-    getWord, parseKey
+from quintagroup.captcha.core.utils import decrypt, parseKey
 
 try:
     hk = context.REQUEST.traverse_subpath[0]

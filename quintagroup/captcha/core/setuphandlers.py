@@ -47,3 +47,9 @@ def uninstall(context):
     # remove captcha key property
     if site.hasProperty(CAPTCHA_KEY):
         site._delProperty(CAPTCHA_KEY)
+
+
+def add_honeypot_property(context):
+    pp = getToolByName(context, 'portal_properties')
+    if PROPERTY_SHEET in pp.objectIds() and not pp[PROPERTY_SHEET].hasProperty("honeypot"):
+        pp[PROPERTY_SHEET].manage_addProperty("honeypot", False, 'boolean')
