@@ -6,8 +6,7 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=
-from quintagroup.captcha.core.utils import gen_captcha, decrypt, \
-    getWord, parseKey
+from quintagroup.captcha.core.utils import gen_captcha, decrypt, getWord, parseKey
 from Products.CMFCore.utils import getToolByName
 import random
 propTool = getToolByName(context, 'portal_properties')

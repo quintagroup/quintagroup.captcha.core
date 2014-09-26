@@ -8,7 +8,7 @@ LAYER_DYNAMIC_CAPTCHAS = 'captcha_core/dynamic'
 LAYER_STATIC_CAPTCHAS = 'captcha_core/static'
 ALL_LAYERS = LAYERS + [LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS]
 
-#TOOL_ICON = 'tool.gif'
+# TOOL_ICON = 'tool.gif'
 TOOL_ICON = 'skins/captcha_core/tool.gif'
 TOOL_ID = 'portal_captchas'
 CONFIGLET_ID = "qpc_tool"

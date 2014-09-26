@@ -51,6 +51,32 @@
             </fieldset>
 
             <fieldset tal:define="props_sheet here/portal_properties/qPloneCaptchas">
+                <legend i18n:translate="legend_dynamic_captchas_options">Honeypot captcha option</legend>
+
+                <div class="field"
+                     tal:define="property_id string:honeypot;
+                                 prop_value python:props_sheet.getProperty(property_id, None);"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+
+                    <input type="checkbox"
+                           name=""
+                           id=""
+                           tabindex =""
+                           tal:attributes="name property_id;
+                                           id property_id;
+                                           value prop_value;
+                                           checked prop_value"/>
+
+                    <label i18n:translate=""
+                           for=""
+                           tal:attributes="for string:${property_id}">
+                           Honeypot enabled
+                    </label>
+                </div>
+
+            </fieldset>
+
+            <fieldset tal:define="props_sheet here/portal_properties/qPloneCaptchas">
                 <legend i18n:translate="legend_dynamic_captchas_options">Dynamic captchas image setup options</legend>
 
                 <div class="field"

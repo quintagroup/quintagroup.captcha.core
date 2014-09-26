@@ -32,4 +32,13 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <gs:upgradeStep
+        title="Add honetpot property"
+        description="Update captcha settings"
+        source="*"
+        destination="0.5"
+        handler="quintagroup.captcha.core.setuphandlers.add_honeypot_property"
+        sortkey="1"
+        profile="quintagroup.captcha.core:default"
+        />
 </configure>

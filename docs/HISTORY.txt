@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.5 - (2014-01-21)
+------------------
+* Added honeypot captcha functionality [kroman0]
+
 0.4.3 - (2013-07-04)
 --------------------
 * Added the backward compatibility with Python 2.4 [potar]
