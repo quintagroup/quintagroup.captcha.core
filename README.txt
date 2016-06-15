@@ -6,7 +6,7 @@ captcha implementation. It allows to configure captchas on your Plone site.
 
 This product works together with other Quintagroup captcha products.
 To protect standard Plone forms with captcha - use quintagroup.plonecaptchas package.
-http://plone.org/products/plone-captchas/  
+https://pypi.python.org/pypi/quintagroup.plonecaptchas 
 
 quintagroup.captcha.core Usage
 ------------------------------
@@ -29,6 +29,7 @@ Links
 
 * Documentation - http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
 * SVN Repository - http://svn.quintagroup.com/products/quintagroup.captcha.core
+* PyPi package - https://pypi.python.org/pypi/quintagroup.captcha.core
 
 Notes
 -----
